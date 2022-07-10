@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { signIn } from '../../store/userSlice';
 
 import CustomInput from '../../components/custom-input/custom-input.component';
 import FormLayout from '../../layouts/form-layout/form-layout.component';
@@ -6,32 +9,48 @@ import FormLayout from '../../layouts/form-layout/form-layout.component';
 import './sign-in.styles.css';
 
 const defaultFormFields = {
-  userName: '',
+  name: '',
   password: '',
 };
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { userName, password } = formFields;
+  const { name, password } = formFields;
+
+  const err = useSelector((state) => state.user.error);
+  const [error, setError] = useState(err);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
+    if (err) setError(null);
     setFormFields({ ...formFields, [name]: value });
   };
 
   const handleSubmit = () => {
-    console.log(formFields);
+    dispatch(signIn(formFields));
+
+    if (err) {
+      setError(err);
+      setFormFields(defaultFormFields);
+    }
   };
 
   return (
     <div className='sign-in'>
-      <FormLayout title='Sign In' buttonLabel='Sign In' onSubmit={handleSubmit}>
+      <FormLayout
+        title='Sign In'
+        buttonLabel='Sign In'
+        onSubmit={handleSubmit}
+        error={error}
+      >
         <CustomInput
           type='text'
           placeholder='Username'
-          name='userName'
-          value={userName}
+          name='name'
+          value={name}
           onChange={handleChange}
         />
         <CustomInput
