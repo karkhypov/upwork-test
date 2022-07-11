@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { signIn } from '../../store/userSlice';
 
@@ -18,22 +18,20 @@ const SignIn = () => {
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { name, password } = formFields;
-
-  const err = useSelector((state) => state.user.error);
-  const [error, setError] = useState(err);
+  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (err) setError(null);
+    if (error) setError(null);
     setFormFields({ ...formFields, [name]: value });
   };
 
   const handleSubmit = () => {
-    dispatch(signIn(formFields));
-
-    if (err) {
-      setError(err);
+    try {
+      dispatch(signIn(formFields));
+    } catch (err) {
+      setError(err.message);
       setFormFields(defaultFormFields);
     }
   };

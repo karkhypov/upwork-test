@@ -5,7 +5,7 @@ import { signOut } from '../../store/userSlice';
 import Button from '../../components/button/button.component';
 import LineChart from '../../components/line-chart/line-chart.component';
 
-import data from '../../data.json';
+import data from './data.json';
 
 import './chart-page.styles.css';
 
