@@ -11,7 +11,7 @@ import './chart-page.styles.css';
 
 const ChartPage = () => {
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.user.user.name);
+  const userName = useSelector((state) => state.user.userName);
 
   const handleClick = () => dispatch(signOut());
 

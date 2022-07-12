@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const mockUser = {
+  name: 'upworkTest',
+  password: '2022',
+};
+
 const initialState = {
-  user: {
-    name: 'upworkTest',
-    password: '2022',
-  },
+  userName: null,
   isLogged: false,
 };
 
@@ -15,14 +17,16 @@ export const userSlice = createSlice({
     signIn: (state, action) => {
       const { name, password } = action.payload;
 
-      if (state.user.name !== name || state.user.password !== password) {
+      if (mockUser.name !== name || mockUser.password !== password) {
         throw new Error('Wrong password or username, please try again');
       }
 
+      state.userName = name;
       state.isLogged = true;
     },
 
     signOut: (state) => {
+      state.userName = null;
       state.isLogged = false;
     },
   },
